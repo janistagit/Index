@@ -46,6 +46,9 @@ def createDocument(cur, docId, docText, docTitle, docDate, docCat):
 
     # 1 Get the category id based on the informed category name
     # --> add your Python code here
+    sql = "select catId from categories where catName = %(docCat)s"
+    cur.execute(sql, {'docCat': docCat})
+    recset = cur.fetchall()
 
     # 2 Insert the document in the database. For num_chars, discard the spaces and punctuation marks.
     # --> add your Python code here
@@ -61,7 +64,6 @@ def createDocument(cur, docId, docText, docTitle, docDate, docCat):
     # 4.2 Create a data structure the stores how many times (count) each term appears in the document
     # 4.3 Insert the term and its corresponding count into the database
     # --> add your Python code here
-    pass
 
 def deleteDocument(cur, docId):
 
