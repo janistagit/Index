@@ -11,6 +11,7 @@
 
 #importing some Python libraries
 # --> add your Python code here
+import re
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
@@ -49,9 +50,19 @@ def createDocument(cur, docId, docText, docTitle, docDate, docCat):
     sql = "select catId from categories where catName = %(docCat)s"
     cur.execute(sql, {'docCat': docCat})
     recset = cur.fetchall()
+    catId_categories = recset['catId']
 
     # 2 Insert the document in the database. For num_chars, discard the spaces and punctuation marks.
     # --> add your Python code here
+    newText = re.sub(r'[\w\s]', '', docText)
+    words = newText.split()
+    num_chars = 0
+    for i in words:
+        num_chars = num_chars + len(i)
+
+    sql = "Insert into documents (docId, docText, docTitle, docDate, catId_categories, num_chars) Values (%s, %s, %s, %s, %s, %s)"
+    recset = [docId, docText, docTitle, docDate, catId_categories, num_chars]
+    cur.execute(sql, recset)   
 
     # 3 Update the potential new terms.
     # 3.1 Find all terms that belong to the document. Use space " " as the delimiter character for terms and Remember to lowercase terms and remove punctuation marks.
