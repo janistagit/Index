@@ -38,6 +38,9 @@ def createCategory(cur, catId, catName):
 
     # Insert a category in the database
     # --> add your Python code here
+    sql = "Insert into users (catId, catName) Values (%s, %s)"
+    recset = [catId, catName]
+    cur.execute(sql, recset)
     
 
 def createDocument(cur, docId, docText, docTitle, docDate, docCat):
