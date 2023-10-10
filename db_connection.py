@@ -38,10 +38,9 @@ def createCategory(cur, catId, catName):
 
     # Insert a category in the database
     # --> add your Python code here
-    sql = "Insert into users (catId, catName) Values (%s, %s)"
+    sql = "Insert into categories (catId, catName) Values (%s, %s)"
     recset = [catId, catName]
-    cur.execute(sql, recset)
-    
+    cur.execute(sql, recset)    
 
 def createDocument(cur, docId, docText, docTitle, docDate, docCat):
 
@@ -62,6 +61,7 @@ def createDocument(cur, docId, docText, docTitle, docDate, docCat):
     # 4.2 Create a data structure the stores how many times (count) each term appears in the document
     # 4.3 Insert the term and its corresponding count into the database
     # --> add your Python code here
+    pass
 
 def deleteDocument(cur, docId):
 
@@ -72,6 +72,7 @@ def deleteDocument(cur, docId):
 
     # 2 Delete the document from the database
     # --> add your Python code here
+    pass
 
 def updateDocument(cur, docId, docText, docTitle, docDate, docCat):
 
@@ -80,6 +81,7 @@ def updateDocument(cur, docId, docText, docTitle, docDate, docCat):
 
     # 2 Create the document with the same id
     # --> add your Python code here
+    pass
 
 def getIndex(cur):
 
@@ -87,3 +89,4 @@ def getIndex(cur):
     # {'baseball':'Exercise:1','summer':'Exercise:1,California:1,Arizona:1','months':'Exercise:1,Discovery:3'}
     # ...
     # --> add your Python code here
+    pass
