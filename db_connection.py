@@ -1,8 +1,8 @@
 #-------------------------------------------------------------------------
-# AUTHOR: your name
-# FILENAME: title of the source file
-# SPECIFICATION: description of the program
-# FOR: CS 4250- Assignment #1
+# AUTHOR: Janista Gitbumrungsin
+# FILENAME: db_connection
+# SPECIFICATION: Connects to database and allows updating of database for documents and categories
+# FOR: CS 4250- Assignment #2
 # TIME SPENT: how long it took you to complete the assignment
 #-----------------------------------------------------------*/
 
@@ -11,16 +11,34 @@
 
 #importing some Python libraries
 # --> add your Python code here
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
 def connectDataBase():
 
     # Create a database connection object using psycopg2
     # --> add your Python code here
+    DB_NAME = "CPP"
+    DB_USER = "postgres"
+    DB_PASS = "123"
+    DB_HOST = "localhost"
+    DB_PORT = "5432"
+    try:
+        conn = psycopg2.connect(database=DB_NAME,
+                                user=DB_USER,
+                                password=DB_PASS,
+                                host=DB_HOST,
+                                port=DB_PORT,
+                                cursor_factory=RealDictCursor)
+        return conn
+    except:
+        print("Database not connected successfully")
 
-def createCategory(cur, cur, catId, catName):
+def createCategory(cur, catId, catName):
 
     # Insert a category in the database
     # --> add your Python code here
+    
 
 def createDocument(cur, docId, docText, docTitle, docDate, docCat):
 
