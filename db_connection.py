@@ -77,7 +77,7 @@ def createDocument(cur, docId, docText, docTitle, docDate, docCat):
         cur.execute(sql, {"word":x})
         recset = cur.fetchall()
 
-        if recset is None:
+        if recset == []:
             sql = "Insert into terms (term, num_chars) Values (%s, %s)"
             recset = [x, num]
             cur.execute(sql, recset)
