@@ -51,11 +51,11 @@ def createDocument(cur, docId, docText, docTitle, docDate, docCat):
     cur.execute(sql, {'docCat': docCat})
     recset = cur.fetchall()
     catId_categories = recset[0]['id']
-    #print(catId_categories)
 
     # 2 Insert the document in the database. For num_chars, discard the spaces and punctuation marks.
     # --> add your Python code here
     newText = re.sub(r'[^\w\s]', '', docText)
+    newText = newText.lower()
     words = newText.split()
     num_chars = 0
     for i in words:
@@ -70,6 +70,16 @@ def createDocument(cur, docId, docText, docTitle, docDate, docCat):
     # 3.2 For each term identified, check if the term already exists in the database
     # 3.3 In case the term does not exist, insert it into the database
     # --> add your Python code here
+    sql = "select term from terms"
+    cur.execute(sql)
+    recset = cur.fetchall()
+
+    for x in words:
+        num = len(x)
+        if x not in recset:
+            sql = "Insert into terms (term, num_chars) Values (%s, %s)"
+            recset = [x, num]
+            cur.execute(sql, recset)
 
     # 4 Update the index
     # 4.1 Find all terms that belong to the document
