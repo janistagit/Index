@@ -103,10 +103,16 @@ def deleteDocument(cur, docId):
     # 1.1 For each term identified, delete its occurrences in the index for that document
     # 1.2 Check if there are no more occurrences of the term in another document. If this happens, delete the term from the database.
     # --> add your Python code here
+    sql = "Delete from index where doc_documents = %(docId)s"
+    cur.execute(sql, {'docId': docId})
+
+    sql = "Delete from terms where count = %(count)s"
+    cur.execute(sql, {'count': 0})
 
     # 2 Delete the document from the database
     # --> add your Python code here
-    pass
+    sql = "Delete from documents where doc = %(docId)s"
+    cur.execute(sql, {'docId': docId})
 
 def updateDocument(cur, docId, docText, docTitle, docDate, docCat):
 
