@@ -39,7 +39,7 @@ def createCategory(cur, catId, catName):
 
     # Insert a category in the database
     # --> add your Python code here
-    sql = "Insert into categories (catId, catName) Values (%s, %s)"
+    sql = "Insert into categories (id, name) Values (%s, %s)"
     recset = [catId, catName]
     cur.execute(sql, recset)    
 
@@ -51,19 +51,19 @@ def createDocument(cur, docId, docText, docTitle, docDate, docCat):
     cur.execute(sql, {'docCat': docCat})
     recset = cur.fetchall()
     catId_categories = recset[0]['id']
-    print(catId_categories)
+    #print(catId_categories)
 
     # 2 Insert the document in the database. For num_chars, discard the spaces and punctuation marks.
     # --> add your Python code here
-    newText = re.sub(r'[\w\s]', '', docText)
+    newText = re.sub(r'[^\w\s]', '', docText)
     words = newText.split()
     num_chars = 0
     for i in words:
         num_chars = num_chars + len(i)
 
-    #sql = "Insert into documents (docId, docText, docTitle, docDate, catId_categories, num_chars) Values (%s, %s, %s, %s, %s, %s)"
-    #recset = [docId, docText, docTitle, docDate, catId_categories, num_chars]
-    #cur.execute(sql, recset)
+    sql = "Insert into documents (doc, text, title, num_chars, date, id_categories) Values (%s, %s, %s, %s, %s, %s)"
+    recset = [docId, docText, docTitle, num_chars, docDate, catId_categories]
+    cur.execute(sql, recset)
 
     # 3 Update the potential new terms.
     # 3.1 Find all terms that belong to the document. Use space " " as the delimiter character for terms and Remember to lowercase terms and remove punctuation marks.
