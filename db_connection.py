@@ -70,13 +70,19 @@ def createDocument(cur, docId, docText, docTitle, docDate, docCat):
     # 3.2 For each term identified, check if the term already exists in the database
     # 3.3 In case the term does not exist, insert it into the database
     # --> add your Python code here
-    sql = "select term from terms"
-    cur.execute(sql)
-    recset = cur.fetchall()
+    #sql = "select term from terms where terms.term = %(word)s"
+    #cur.execute(sql)
+    #recset = cur.fetchall()
+    #can query for a match then if match is none then insert
 
     for x in words:
         num = len(x)
-        if x not in recset:
+
+        sql = "select term from terms where terms.term = %(word)s"
+        cur.execute(sql, {"word":x})
+        recset = cur.fetchall()
+
+        if recset is None:
             sql = "Insert into terms (term, num_chars) Values (%s, %s)"
             recset = [x, num]
             cur.execute(sql, recset)
@@ -86,6 +92,11 @@ def createDocument(cur, docId, docText, docTitle, docDate, docCat):
     # 4.2 Create a data structure the stores how many times (count) each term appears in the document
     # 4.3 Insert the term and its corresponding count into the database
     # --> add your Python code here
+    dict = {}
+    for x in words:
+        if x not in dict.keys():
+            dict.update({x : words.count(x)})
+    print(dict)
 
 def deleteDocument(cur, docId):
 
