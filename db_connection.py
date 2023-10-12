@@ -19,7 +19,7 @@ def connectDataBase():
 
     # Create a database connection object using psycopg2
     # --> add your Python code here
-    DB_NAME = "CPP"
+    DB_NAME = "corpus"
     DB_USER = "postgres"
     DB_PASS = "123"
     DB_HOST = "localhost"
@@ -47,10 +47,11 @@ def createDocument(cur, docId, docText, docTitle, docDate, docCat):
 
     # 1 Get the category id based on the informed category name
     # --> add your Python code here
-    sql = "select catId from categories where catName = %(docCat)s"
+    sql = "select id from categories where categories.name = %(docCat)s"
     cur.execute(sql, {'docCat': docCat})
     recset = cur.fetchall()
-    catId_categories = recset['catId']
+    catId_categories = recset[0]['id']
+    print(catId_categories)
 
     # 2 Insert the document in the database. For num_chars, discard the spaces and punctuation marks.
     # --> add your Python code here
@@ -60,9 +61,9 @@ def createDocument(cur, docId, docText, docTitle, docDate, docCat):
     for i in words:
         num_chars = num_chars + len(i)
 
-    sql = "Insert into documents (docId, docText, docTitle, docDate, catId_categories, num_chars) Values (%s, %s, %s, %s, %s, %s)"
-    recset = [docId, docText, docTitle, docDate, catId_categories, num_chars]
-    cur.execute(sql, recset)   
+    #sql = "Insert into documents (docId, docText, docTitle, docDate, catId_categories, num_chars) Values (%s, %s, %s, %s, %s, %s)"
+    #recset = [docId, docText, docTitle, docDate, catId_categories, num_chars]
+    #cur.execute(sql, recset)
 
     # 3 Update the potential new terms.
     # 3.1 Find all terms that belong to the document. Use space " " as the delimiter character for terms and Remember to lowercase terms and remove punctuation marks.
