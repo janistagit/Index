@@ -70,11 +70,6 @@ def createDocument(cur, docId, docText, docTitle, docDate, docCat):
     # 3.2 For each term identified, check if the term already exists in the database
     # 3.3 In case the term does not exist, insert it into the database
     # --> add your Python code here
-    #sql = "select term from terms where terms.term = %(word)s"
-    #cur.execute(sql)
-    #recset = cur.fetchall()
-    #can query for a match then if match is none then insert
-
     for x in words:
         num = len(x)
 
@@ -96,7 +91,11 @@ def createDocument(cur, docId, docText, docTitle, docDate, docCat):
     for x in words:
         if x not in dict.keys():
             dict.update({x : words.count(x)})
-    print(dict)
+
+    for k, v in dict.items():
+        sql = "Insert into index (doc_documents, term_terms, count) Values (%s, %s, %s)"
+        recset = [docId, k, v]
+        cur.execute(sql, recset)
 
 def deleteDocument(cur, docId):
 
