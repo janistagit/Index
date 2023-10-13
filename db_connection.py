@@ -103,11 +103,28 @@ def deleteDocument(cur, docId):
     # 1.1 For each term identified, delete its occurrences in the index for that document
     # 1.2 Check if there are no more occurrences of the term in another document. If this happens, delete the term from the database.
     # --> add your Python code here
+    sql = "select term_terms from index where index.doc_documents = %(docId)s"
+    cur.execute(sql, {"docId":docId})
+    recset = cur.fetchall()
+
+    ans = []
+    values = []
+    for rec in recset:
+        ans.append(dict(rec))
+    for obj in ans:
+        values.append(obj["term_terms"])
+
+    for x in values:
+        sql = "select doc_documents from index where index.term_terms = %(word)s"
+        cur.execute(sql, {"word":x})
+        recset = cur.fetchall()
+
+        if recset == []:
+            sql = "Delete from terms where term = %(word)s"
+            cur.execute(sql, {'word': x})
+
     sql = "Delete from index where doc_documents = %(docId)s"
     cur.execute(sql, {'docId': docId})
-
-    sql = "Delete from terms where count = %(count)s"
-    cur.execute(sql, {'count': 0})
 
     # 2 Delete the document from the database
     # --> add your Python code here
