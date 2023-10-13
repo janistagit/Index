@@ -1,7 +1,7 @@
 #-------------------------------------------------------------------------
 # AUTHOR: Janista Gitbumrungsin
 # FILENAME: db_connection
-# SPECIFICATION: Connects to database and allows updating of database for documents and categories
+# SPECIFICATION: Connects to database and allows updating of database for documents and categories in an inverted index
 # FOR: CS 4250- Assignment #2
 # TIME SPENT: how long it took you to complete the assignment
 #-----------------------------------------------------------*/
@@ -135,7 +135,7 @@ def updateDocument(cur, docId, docText, docTitle, docDate, docCat):
 
     # 1 Delete the document
     # --> add your Python code here
-    deleteDocument(docId)
+    deleteDocument(cur, docId)
 
     # 2 Create the document with the same id
     # --> add your Python code here
@@ -147,4 +147,42 @@ def getIndex(cur):
     # {'baseball':'Exercise:1','summer':'Exercise:1,California:1,Arizona:1','months':'Exercise:1,Discovery:3'}
     # ...
     # --> add your Python code here
-    pass
+    title = []
+    titledict = {}
+    sql = "select doc, title from documents"
+    cur.execute(sql)
+    recset = cur.fetchall()
+    for rec in recset:
+        title.append(dict(rec))
+    for obj in title:
+        titledict.update({obj["doc"] : obj["title"]})
+
+    sql = "select term from terms order by term asc"
+    cur.execute(sql)
+    recset = cur.fetchall()
+
+    ans = []
+    values = []
+    for rec in recset:
+        ans.append(dict(rec))
+    for obj in ans:
+        values.append(obj["term"])
+
+    dictionary = {}
+    for word in values:
+        doclist = []
+        string = ""
+        sql = "select doc_documents, count from index where term_terms = %(word)s"
+        cur.execute(sql, {"word" : word})
+        recset = cur.fetchall()
+
+        for rec in recset:
+            doclist.append(dict(rec))
+
+        for obj in doclist:
+            string = string + str(titledict[obj["doc_documents"]]) + ":" + str(obj["count"]) + ", "
+
+        string = string[:-2]
+        dictionary.update({word : string})
+
+    return(dictionary)
