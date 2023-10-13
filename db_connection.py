@@ -114,17 +114,19 @@ def deleteDocument(cur, docId):
     for obj in ans:
         values.append(obj["term_terms"])
 
+    sql = "Delete from index where doc_documents = %(docId)s"
+    cur.execute(sql, {'docId': docId})
+
     for x in values:
         sql = "select doc_documents from index where index.term_terms = %(word)s"
         cur.execute(sql, {"word":x})
         recset = cur.fetchall()
 
+        print(x)
+        print(recset)
         if recset == []:
             sql = "Delete from terms where term = %(word)s"
-            cur.execute(sql, {'word': x})
-
-    sql = "Delete from index where doc_documents = %(docId)s"
-    cur.execute(sql, {'docId': docId})
+            cur.execute(sql, {'word':x})
 
     # 2 Delete the document from the database
     # --> add your Python code here
