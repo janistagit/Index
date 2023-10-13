@@ -1,9 +1,9 @@
 #-------------------------------------------------------------------------
-# AUTHOR: your name
-# FILENAME: title of the source file
-# SPECIFICATION: description of the program
+# AUTHOR: Janista Gitbumrungsin
+# FILENAME: index
+# SPECIFICATION: Driver program for inverted index
 # FOR: CS 4250- Assignment #2
-# TIME SPENT: how long it took you to complete the assignment
+# TIME SPENT: 7 hours
 #-----------------------------------------------------------*/
 
 #importing some Python libraries
