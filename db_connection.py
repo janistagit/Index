@@ -122,8 +122,6 @@ def deleteDocument(cur, docId):
         cur.execute(sql, {"word":x})
         recset = cur.fetchall()
 
-        print(x)
-        print(recset)
         if recset == []:
             sql = "Delete from terms where term = %(word)s"
             cur.execute(sql, {'word':x})
@@ -137,10 +135,11 @@ def updateDocument(cur, docId, docText, docTitle, docDate, docCat):
 
     # 1 Delete the document
     # --> add your Python code here
+    deleteDocument(docId)
 
     # 2 Create the document with the same id
     # --> add your Python code here
-    pass
+    createDocument(cur, docId, docText, docTitle, docDate, docCat)
 
 def getIndex(cur):
 
