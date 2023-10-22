@@ -3,7 +3,7 @@
 # FILENAME: index_mongo
 # SPECIFICATION: Driver program for inverted index
 # FOR: CS 4250- Assignment #2
-# TIME SPENT: how long it took you to complete the assignment
+# TIME SPENT: 2.5 hours
 #-----------------------------------------------------------*/
 
 from pymongo import MongoClient  # import mongo client to connect

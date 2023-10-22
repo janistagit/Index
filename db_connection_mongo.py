@@ -3,7 +3,7 @@
 # FILENAME: db_connection_mongo
 # SPECIFICATION: Connects to database and allows updating of database for documents in an inverted index
 # FOR: CS 4250- Assignment #2
-# TIME SPENT: how long it took you to complete the assignment
+# TIME SPENT: 2.5 hours
 #-----------------------------------------------------------*/
 
 #IMPORTANT NOTE: DO NOT USE ANY ADVANCED PYTHON LIBRARY TO COMPLETE THIS CODE SUCH AS numpy OR pandas. You have to work here only with
@@ -98,15 +98,12 @@ def getIndex(col):
 
     index = {}
     for x in words:
-        temp = {}
         string = ""
 
         for item in results:
             if item.get("terms").get("term") == x:
-                temp.update({item.get("title") : item.get("terms").get("count")})
                 string = string + str(item.get("title")) + ":" + str(item.get("terms").get("count")) + ", "
         
-        #index.update({x : temp})
         string = string[:-2]
         index.update({x : string})
 
