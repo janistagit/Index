@@ -1,7 +1,7 @@
 #-------------------------------------------------------------------------
-# AUTHOR: your name
-# FILENAME: title of the source file
-# SPECIFICATION: description of the program
+# AUTHOR: Janista Gitbumrungsin
+# FILENAME: db_connection_mongo
+# SPECIFICATION: Connects to database and allows updating of database for documents in an inverted index
 # FOR: CS 4250- Assignment #2
 # TIME SPENT: how long it took you to complete the assignment
 #-----------------------------------------------------------*/
@@ -11,11 +11,14 @@
 
 #importing some Python libraries
 # --> add your Python code here
+from pymongo import MongoClient
 
 def connectDataBase():
 
     # Create a database connection object using pymongo
     # --> add your Python code here
+    client = MongoClient(host="localhost", port=27017)
+    return client
 
 def createDocument(col, docId, docText, docTitle, docDate, docCat):
 
@@ -31,11 +34,13 @@ def createDocument(col, docId, docText, docTitle, docDate, docCat):
 
     # Insert the document
     # --> add your Python code here
+    pass
 
 def deleteDocument(col, docId):
 
     # Delete the document from the database
     # --> add your Python code here
+    pass
 
 def updateDocument(col, docId, docText, docTitle, docDate, docCat):
 
@@ -44,6 +49,7 @@ def updateDocument(col, docId, docText, docTitle, docDate, docCat):
 
     # Create the document with the same id
     # --> add your Python code here
+    pass
 
 def getIndex(col):
 
@@ -51,3 +57,4 @@ def getIndex(col):
     # {'baseball':'Exercise:1','summer':'Exercise:1,California:1,Arizona:1','months':'Exercise:1,Discovery:3'}
     # ...
     # --> add your Python code here
+    pass
