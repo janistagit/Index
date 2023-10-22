@@ -45,9 +45,6 @@ def createDocument(col, docId, docText, docTitle, docDate, docCat):
         temp = {"term": k, "num_char_terms": len(k), "count":v}
         termList.append(temp)
 
-    print(termCount)
-    print(termList)
-
     #Producing a final document as a dictionary including all the required document fields
     # --> add your Python code here
     num_chars = 0
@@ -57,7 +54,7 @@ def createDocument(col, docId, docText, docTitle, docDate, docCat):
     newDate = str(docDate) + "T00:00:00.000Z"
 
     document = {
-        "_id" : docId,
+        "_id" : int(docId),
         "text" : docText,
         "title" : docTitle,
         "num_chars" : num_chars,
