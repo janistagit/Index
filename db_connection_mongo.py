@@ -71,7 +71,7 @@ def deleteDocument(col, docId):
 
     # Delete the document from the database
     # --> add your Python code here
-    col.delete_one({"_id": docId})
+    col.delete_one({"_id": int(docId)})
 
 def updateDocument(col, docId, docText, docTitle, docDate, docCat):
 
@@ -88,4 +88,26 @@ def getIndex(col):
     # {'baseball':'Exercise:1','summer':'Exercise:1,California:1,Arizona:1','months':'Exercise:1,Discovery:3'}
     # ...
     # --> add your Python code here
-    pass
+    words = col.distinct("terms.term")
+    pipeline = [
+        {"$unwind" : "$terms"},
+        {"$project" : {"terms.term":1, "title":1, "terms.count":1, "_id":0}}
+    ]
+
+    results = list(col.aggregate(pipeline))
+
+    index = {}
+    for x in words:
+        temp = {}
+        string = ""
+
+        for item in results:
+            if item.get("terms").get("term") == x:
+                temp.update({item.get("title") : item.get("terms").get("count")})
+                string = string + str(item.get("title")) + ":" + str(item.get("terms").get("count")) + ", "
+        
+        #index.update({x : temp})
+        string = string[:-2]
+        index.update({x : string})
+
+    return index
