@@ -12,29 +12,63 @@
 #importing some Python libraries
 # --> add your Python code here
 from pymongo import MongoClient
+import re
+import datetime
 
 def connectDataBase():
 
     # Create a database connection object using pymongo
     # --> add your Python code here
     client = MongoClient(host="localhost", port=27017)
-    return client
+    db = client.library
+    return db
 
 def createDocument(col, docId, docText, docTitle, docDate, docCat):
 
     # create a dictionary to count how many times each term appears in the document.
     # Use space " " as the delimiter character for terms and remember to lowercase them.
     # --> add your Python code here
+    termCount = {}
+    newText = re.sub(r'[^\w\s]', '', docText)
+    newText = newText.lower()
+    words = newText.split()
+
+    for x in words:
+        if x not in termCount.keys():
+            termCount.update({x : words.count(x)})
 
     # create a list of dictionaries to include term objects.
     # --> add your Python code here
+    termList = []
+    for k,v in termCount.items():
+        temp = {}
+        temp = {"term": k, "num_char_terms": len(k), "count":v}
+        termList.append(temp)
+
+    print(termCount)
+    print(termList)
 
     #Producing a final document as a dictionary including all the required document fields
     # --> add your Python code here
+    num_chars = 0
+    for i in words:
+        num_chars = num_chars + len(i)
+
+    newDate = str(docDate) + "T00:00:00.000Z"
+
+    document = {
+        "_id" : docId,
+        "text" : docText,
+        "title" : docTitle,
+        "num_chars" : num_chars,
+        "date" : datetime.datetime.strptime(newDate, "%Y-%m-%dT%H:%M:%S.000Z"),
+        "category" : docCat,
+        "terms" : termList
+    }
 
     # Insert the document
     # --> add your Python code here
-    pass
+    col.insert_one(document)
 
 def deleteDocument(col, docId):
 
