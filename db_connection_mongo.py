@@ -71,16 +71,16 @@ def deleteDocument(col, docId):
 
     # Delete the document from the database
     # --> add your Python code here
-    pass
+    col.delete_one({"_id": docId})
 
 def updateDocument(col, docId, docText, docTitle, docDate, docCat):
 
     # Delete the document
-    # --> add your Python code here
+    deleteDocument(col, docId)
 
     # Create the document with the same id
     # --> add your Python code here
-    pass
+    createDocument(col, docId, docText, docTitle, docDate, docCat)
 
 def getIndex(col):
 
